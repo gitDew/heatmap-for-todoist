@@ -1,0 +1,20 @@
+{
+    "name": "Heatmap for Todoist",
+    "version": "1.0",
+    "description": "Visualize your completed tasks on Todoist.",
+    "manifest_version": 2,
+    "permissions": ["storage", "webNavigation"],
+    "content_scripts": [
+        {
+            "matches": ["http://localhost:1234/",
+            "https://en.todoist.com/*"],
+            "js": ["out/heatmap.js"],
+            "css": ["heatmap.css"]
+        }
+    ],
+    
+    "background": {
+        "scripts": ["out/todoist.js"],
+        "persistent": false
+    }
+  }
