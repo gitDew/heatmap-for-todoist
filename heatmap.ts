@@ -1,6 +1,8 @@
 import { Rect, Svg, SVG, extend as SVGextend, Element as SVGElement } from '@svgdotjs/svg.js'
 import { getPastYearArray } from "./time";
 
+let Rainbow = require("rainbowvis.js")
+
 const box_height = 128;
 const box_width = 791;
 
@@ -44,6 +46,7 @@ function injectHeatmapIn(element: HTMLElement) {
             week_counter++;
         }
     }
+    return canvas;
 }
 
 function drawRectangle(canvas: Svg): Rect {
@@ -58,11 +61,39 @@ function moveColumn(column: Rect[], by = 0): void {
     }
 }
 
+function addColorByTaskTo(heatmap: Svg) {
+    chrome.storage.sync.get({todoist_completed_tasks: {}}, function(result) {
+        let tasks_for_date = result["todoist_completed_tasks"];
+
+        let rainbow = setupColorGradient(tasks_for_date)
+
+        for (const date in tasks_for_date) {
+            let color = rainbow.colourAt(tasks_for_date[date])
+            heatmap.findOne('#day_' + date).attr({fill: '#' + color})
+        }
+    })
+}
+
+function setupColorGradient(tasks_for_date) {
+
+    let completed_task_numbers: number[] = Object.values(tasks_for_date);
+    let min_tasks = Math.min(...completed_task_numbers)
+    let max_tasks = Math.max(...completed_task_numbers)
+
+    let rainbow = new Rainbow();
+
+    // dark green to light green
+    rainbow.setSpectrum('#b7e5c7', '#00c647')
+    rainbow.setNumberRange(min_tasks, max_tasks)
+    return rainbow
+}
+
 let observer = new MutationObserver(function(mutations) {
     let element = document.getElementById("agenda_view")
     if (element != null) {
         observer.disconnect();
-        injectHeatmapIn(element)
+        let heatmap: Svg = injectHeatmapIn(element)
+        addColorByTaskTo(heatmap)
     }
 });
 
