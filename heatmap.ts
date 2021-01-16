@@ -35,7 +35,7 @@ function injectHeatmapIn(element: HTMLElement) {
         let in_column_position = i % column_length;
         
         current_rect.y(in_column_position * row_distance)
-        current_rect.attr('id', pastYearArray[i]);
+        current_rect.id("day_" + pastYearArray[i])
         current_column.push(current_rect)
 
         if (in_column_position === 6 || i === pastYearArray.length - 1) {
