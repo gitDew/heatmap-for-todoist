@@ -2,7 +2,7 @@ import { Rect, Svg, SVG, extend as SVGextend, Element as SVGElement } from '@svg
 import { getPastYearArray } from "./time";
 
 const box_height = 128;
-const box_width = 776;
+const box_width = 791;
 
 const rect_width = 11;
 const rect_height = 11;
@@ -38,7 +38,7 @@ function injectHeatmapIn(element: HTMLElement) {
         current_rect.attr('id', pastYearArray[i]);
         current_column.push(current_rect)
 
-        if (in_column_position === 6) {
+        if (in_column_position === 6 || i === pastYearArray.length - 1) {
             moveColumn(current_column, week_counter * column_distance)
             current_column = [];
             week_counter++;
