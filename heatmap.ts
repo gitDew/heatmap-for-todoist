@@ -113,11 +113,12 @@ function setupTooltips() {
     tippy('#heatmap rect', {
         content: function(reference) {
             let [prefix, date] = reference.getAttribute("id").split("_")
+            let date_string = new Date(date).toUTCString().slice(0, 16)
             if (reference.hasAttribute("completed_tasks")) {
                 let completed_tasks = reference.getAttribute("completed_tasks");
-                return `${completed_tasks} tasks completed on ${date}`;
+                return `${completed_tasks} tasks completed on ${date_string}`;
             }
-            return `No tasks completed on ${date}`
+            return `No tasks completed on ${date_string}`
         }
     })
 }
