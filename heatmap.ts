@@ -1,5 +1,6 @@
 import { Rect, Svg, SVG, extend as SVGextend, Element as SVGElement } from '@svgdotjs/svg.js'
 import { getPastYearArray } from "./time";
+import tippy from 'tippy.js';
 
 let Rainbow = require("rainbowvis.js")
 
@@ -17,6 +18,23 @@ const rect_attributes = {
     height: 11,
     radius: 2,
     fill: "#eee"
+}
+
+let observer = new MutationObserver(function(mutations) {
+    let element: HTMLElement = document.getElementById("agenda_view")
+    if (element != null) {
+        observer.disconnect();
+        
+        setupHeatmapIn(element)
+    }
+});
+observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true});
+
+function setupHeatmapIn(element: HTMLElement) {
+    let heatmap: Svg = injectHeatmapIn(element)
+    addColorAndCompletedTasksTo(heatmap).then(() => {
+        setupTooltips()
+    })
 }
 
 function injectHeatmapIn(element: HTMLElement) {
@@ -37,7 +55,7 @@ function injectHeatmapIn(element: HTMLElement) {
         let in_column_position = i % column_length;
         
         current_rect.y(in_column_position * row_distance)
-        current_rect.id("day_" + pastYearArray[i])
+        current_rect.id("date_" + pastYearArray[i])
         current_column.push(current_rect)
 
         if (in_column_position === 6 || i === pastYearArray.length - 1) {
@@ -61,16 +79,19 @@ function moveColumn(column: Rect[], by = 0): void {
     }
 }
 
-function addColorByTaskTo(heatmap: Svg) {
-    chrome.storage.sync.get({todoist_completed_tasks: {}}, function(result) {
-        let tasks_for_date = result["todoist_completed_tasks"];
-
-        let rainbow = setupColorGradient(tasks_for_date)
-
-        for (const date in tasks_for_date) {
-            let color = rainbow.colourAt(tasks_for_date[date])
-            heatmap.findOne('#day_' + date).attr({fill: '#' + color})
-        }
+function addColorAndCompletedTasksTo(heatmap: Svg): Promise<void> {
+    return new Promise((resolve, reject) => {
+        chrome.storage.sync.get({todoist_completed_tasks: {}}, function(result) {
+            let tasks_for_date = result["todoist_completed_tasks"];
+    
+            let gradient = setupColorGradient(tasks_for_date)
+    
+            for (const date in tasks_for_date) {
+                let color = gradient.colourAt(tasks_for_date[date])
+                heatmap.findOne('#date_' + date).attr({fill: '#' + color, completed_tasks: tasks_for_date[date]})
+            }
+            resolve()
+        })
     })
 }
 
@@ -88,13 +109,15 @@ function setupColorGradient(tasks_for_date) {
     return rainbow
 }
 
-let observer = new MutationObserver(function(mutations) {
-    let element = document.getElementById("agenda_view")
-    if (element != null) {
-        observer.disconnect();
-        let heatmap: Svg = injectHeatmapIn(element)
-        addColorByTaskTo(heatmap)
-    }
-});
-
-observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true});
+function setupTooltips() {
+    tippy('#heatmap rect', {
+        content: function(reference) {
+            let [prefix, date] = reference.getAttribute("id").split("_")
+            if (reference.hasAttribute("completed_tasks")) {
+                let completed_tasks = reference.getAttribute("completed_tasks");
+                return `${completed_tasks} tasks completed on ${date}`;
+            }
+            return `No tasks completed on ${date}`
+        }
+    })
+}

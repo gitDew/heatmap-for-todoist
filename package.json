@@ -6,7 +6,8 @@
   "dependencies": {
     "@svgdotjs/svg.js": "^3.0.16",
     "axios": "^0.21.1",
-    "rainbowvis.js": "^1.0.1"
+    "rainbowvis.js": "^1.0.1",
+    "tippy.js": "^6.2.7"
   },
   "devDependencies": {
     "@types/chrome": "0.0.128",

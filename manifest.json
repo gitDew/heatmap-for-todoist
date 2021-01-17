@@ -9,7 +9,7 @@
             "matches": ["http://localhost:1234/",
             "https://en.todoist.com/*"],
             "js": ["out/heatmap.js"],
-            "css": ["heatmap.css"]
+            "css": ["heatmap.css", "node_modules/tippy.js/dist/tippy.css"]
         }
     ],
     
