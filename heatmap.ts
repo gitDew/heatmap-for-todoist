@@ -1,19 +1,12 @@
-import { Rect, Svg, SVG, extend as SVGextend, Element as SVGElement } from '@svgdotjs/svg.js'
+import { Rect, Svg, SVG } from '@svgdotjs/svg.js'
 import { getPastYearArray } from "./time";
 import tippy from 'tippy.js';
-
 let Rainbow = require("rainbowvis.js")
 
 const box_height = 128;
 const box_width = 791;
 
-const rect_width = 11;
-const rect_height = 11;
-const rect_radius = 10;
-
-const empty_bg = "#eee"
-
-const rect_attributes = {
+const default_rect_attributes = {
     width: 11,
     height: 11,
     radius: 2,
@@ -31,13 +24,13 @@ let observer = new MutationObserver(function(mutations) {
 observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true});
 
 function setupHeatmapIn(element: HTMLElement) {
-    let heatmap: Svg = injectHeatmapIn(element)
+    let heatmap: Svg = injectColorlessHeatmapIn(element)
     addColorAndCompletedTasksTo(heatmap).then(() => {
         setupTooltips()
     })
 }
 
-function injectHeatmapIn(element: HTMLElement) {
+function injectColorlessHeatmapIn(element: HTMLElement) {
     let canvas: Svg = SVG().addTo(element).size(box_width, box_height);
     canvas.attr({id: "heatmap"})
 
@@ -68,8 +61,8 @@ function injectHeatmapIn(element: HTMLElement) {
 }
 
 function drawRectangle(canvas: Svg): Rect {
-    let rectangle = canvas.rect().attr(rect_attributes)
-    rectangle.radius(rect_attributes["radius"])
+    let rectangle = canvas.rect().attr(default_rect_attributes)
+    rectangle.radius(default_rect_attributes["radius"])
     return rectangle;
 }
 
@@ -95,18 +88,18 @@ function addColorAndCompletedTasksTo(heatmap: Svg): Promise<void> {
     })
 }
 
-function setupColorGradient(tasks_for_date) {
+function setupColorGradient(tasks_for_date: { [s: string]: number; }) {
 
     let completed_task_numbers: number[] = Object.values(tasks_for_date);
     let min_tasks = Math.min(...completed_task_numbers)
     let max_tasks = Math.max(...completed_task_numbers)
 
-    let rainbow = new Rainbow();
+    let gradient = new Rainbow();
 
-    // dark green to light green
-    rainbow.setSpectrum('#b7e5c7', '#00c647')
-    rainbow.setNumberRange(min_tasks, max_tasks)
-    return rainbow
+    // transparent green to light green
+    gradient.setSpectrum('#b7e5c7', '#00c647')
+    gradient.setNumberRange(min_tasks, max_tasks)
+    return gradient
 }
 
 function setupTooltips() {
