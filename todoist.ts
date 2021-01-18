@@ -1,15 +1,15 @@
 import axios from 'axios';
 
 function fetchAndUpdate() {
-    getAPItoken().then(function(api_token) {
-        return fetchProductivityStats(api_token)
-    }).then(function(response) {
-        let relevantData = convertResponse(response)
-        updateStorage(relevantData)
-    })    
+    getTokenFromStorage()
+        .then((api_token) => fetchProductivityStats(api_token))
+        .then((response) => {
+            let relevantData = convertResponse(response);
+            updateStorage(relevantData)
+        })
 }
 
-function getAPItoken(): Promise<string> {
+function getTokenFromStorage(): Promise<string> {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.get("todoist_api_token", function(result) {
             resolve(result["todoist_api_token"]);
