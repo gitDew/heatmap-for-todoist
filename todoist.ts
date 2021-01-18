@@ -11,8 +11,13 @@ function fetchAndUpdate() {
 
 function getTokenFromStorage(): Promise<string> {
     return new Promise((resolve, reject) => {
-        chrome.storage.sync.get("todoist_api_token", function(result) {
-            resolve(result["todoist_api_token"]);
+        chrome.storage.sync.get("todoist_api_token", function(items) {
+            let err = chrome.runtime.lastError;
+            if (err) { 
+                reject(err);
+            } else{
+                resolve(items["todoist_api_token"]);
+            }
         })
     })
 }
