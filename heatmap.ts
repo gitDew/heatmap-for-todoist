@@ -24,15 +24,14 @@ let observer = new MutationObserver(function(mutations) {
 observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true});
 
 function setupHeatmapIn(element: HTMLElement) {
-    let heatmap: Svg = injectColorlessHeatmapIn(element)
-    addColorAndCompletedTasksTo(heatmap).then(() => {
-        setupTooltips()
-    })
+    let heatmap: Svg = injectHeatmapIn(element)
+    addColorAndCompletedTasksTo(heatmap)
+        .then(() => setupTooltips())
 }
 
-function injectColorlessHeatmapIn(element: HTMLElement) {
-    let canvas: Svg = SVG().addTo(element).size(box_width, box_height);
-    canvas.attr({id: "heatmap"})
+function injectHeatmapIn(element: HTMLElement) {
+    let heatmap: Svg = SVG().addTo(element).size(box_width, box_height);
+    heatmap.attr({id: "heatmap"})
 
     const column_distance = 15;
     const row_distance = 15;
@@ -43,7 +42,7 @@ function injectColorlessHeatmapIn(element: HTMLElement) {
     let current_column: Rect[] = [];
     let week_counter: number = 0;
     for (let i = 0; i < pastYearArray.length; i++) {
-        let current_rect = drawRectangle(canvas)
+        let current_rect = drawRectangle(heatmap)
 
         let in_column_position = i % column_length;
         
@@ -57,7 +56,7 @@ function injectColorlessHeatmapIn(element: HTMLElement) {
             week_counter++;
         }
     }
-    return canvas;
+    return heatmap;
 }
 
 function drawRectangle(canvas: Svg): Rect {
