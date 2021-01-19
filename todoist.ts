@@ -27,12 +27,9 @@ function getTokenFromStorage(): Promise<string> {
 function fetchProductivityStats(user_token: string) {
     console.log("Fetching data from Todoist...");
     const api_url: string = "https://api.todoist.com/sync/v8/completed/get_stats" 
-    try {
-        let response = axios.post(api_url, {token: user_token})
-        return response;
-    } catch (error) {
-        console.error("Fetching data from Todoist failed. " + error);
-    }
+
+    return axios.post(api_url, {token: user_token})
+
 }
 
 function convertResponse(response) {
