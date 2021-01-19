@@ -7,14 +7,16 @@ function fetchAndUpdate() {
             let relevantData = convertResponse(response);
             updateStorage(relevantData)
         })
+        .catch((err: Error) => {
+            throw new Error("Failed to update storage: " + err.message)
+        })
 }
 
 function getTokenFromStorage(): Promise<string> {
     return new Promise((resolve, reject) => {
-        chrome.storage.sync.get("todoist_api_token", function(items) {
-            let err = chrome.runtime.lastError;
-            if (err) { 
-                reject(err);
+        chrome.storage.sync.get({"todoist_api_token" : ""}, function(items) {
+            if (items["todoist_api_token"] == "") {
+                reject(new Error("No API token found in storage."));
             } else{
                 resolve(items["todoist_api_token"]);
             }
