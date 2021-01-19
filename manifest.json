@@ -6,13 +6,11 @@
     "permissions": ["storage", "webNavigation"],
     "content_scripts": [
         {
-            "matches": ["http://localhost:1234/",
-            "https://en.todoist.com/*"],
+            "matches": ["https://en.todoist.com/*"],
             "js": ["out/heatmap.js"],
             "css": ["heatmap.css", "node_modules/tippy.js/dist/tippy.css"]
         }
     ],
-    
     "background": {
         "scripts": ["out/todoist.js"],
         "persistent": false
