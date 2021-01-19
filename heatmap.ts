@@ -90,14 +90,14 @@ function addColorAndCompletedTasksTo(heatmap: Svg): Promise<void> {
 function setupColorGradient(tasks_for_date: { [s: string]: number; }) {
 
     let completed_task_numbers: number[] = Object.values(tasks_for_date);
-    let min_tasks = Math.min(...completed_task_numbers)
-    let max_tasks = Math.max(...completed_task_numbers)
+    let min_completed = Math.min(...completed_task_numbers)
+    let max_completed = Math.max(...completed_task_numbers)
 
     let gradient = new Rainbow();
 
     // transparent green to light green
     gradient.setSpectrum('#b7e5c7', '#00c647')
-    gradient.setNumberRange(min_tasks, max_tasks)
+    gradient.setNumberRange(min_completed, max_completed)
     return gradient
 }
 
