@@ -16,7 +16,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "parcel build --out-dir out todoist.ts heatmap.ts time.ts"
+    "build": "parcel build --out-dir out todoist.ts heatmap.ts time.ts background.ts"
   },
   "author": "gitDew",
   "license": "ISC"

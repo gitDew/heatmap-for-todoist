@@ -12,7 +12,8 @@
         }
     ],
     "background": {
-        "scripts": ["out/todoist.js"],
+        "scripts": ["out/background.js"],
         "persistent": false
-    }
+    },
+    "web_accessible_resources": ["token-form.html"]
   }

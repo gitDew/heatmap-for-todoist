@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getTokenFromStorage } from "./storage";
 
-function fetchAndUpdate() {
+export function fetchAndUpdate() {
     getTokenFromStorage()
         .then((api_token) => fetchProductivityStats(api_token))
         .then((response) => {
@@ -49,10 +49,3 @@ function updateStorage(data) {
     })
 }
 
-chrome.runtime.onStartup.addListener(() => {
-    fetchAndUpdate();
-});
-  
-chrome.webNavigation.onCompleted.addListener(function() {
-    fetchAndUpdate();
-}, {url: [{urlMatches : 'https://en.todoist.com/'}]});
