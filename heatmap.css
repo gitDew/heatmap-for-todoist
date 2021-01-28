@@ -2,3 +2,39 @@
     display: block;
     margin: auto;
 }
+
+.heatmap-box {
+    display: flex;
+    justify-content: center;
+}
+
+.token-form-box {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fafafa;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.form-row {
+    display: inline-block;
+}
+
+.form-row button {
+    background-color: #db4c3f;
+    color: #ffffff;
+    border-radius: 4px;
+    padding: 4px;
+    margin-left: 0px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    position: relative;
+    left: -2px;
+    height: 21px;
+    top: 1px;
+}
+
+.form-row button:hover {
+    background-color: #e26f65;
+}
