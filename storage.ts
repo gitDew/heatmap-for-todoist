@@ -10,7 +10,7 @@ export function getTokenFromStorage(): Promise<string> {
     })
 }
 
-export function hasTokenInStorage(): Promise<boolean> {
+export function checkIfTokenInStorage(): Promise<boolean> {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.get({"todoist_api_token" : ""}, function(items) {
             if (items["todoist_api_token"] == "") {
