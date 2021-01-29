@@ -8,7 +8,7 @@
         {
             "matches": ["https://en.todoist.com/*"],
             "js": ["out/heatmap.js"],
-            "css": ["heatmap.css", "node_modules/tippy.js/dist/tippy.css"]
+            "css": ["heatmap.css", "node_modules/tippy.js/dist/tippy.css", "node_modules/animate.css/animate.min.css"]
         }
     ],
     "background": {
