@@ -1,6 +1,10 @@
 import { Rect, Svg, SVG } from '@svgdotjs/svg.js'
 import { getPastYearArray } from "./time";
 import tippy from 'tippy.js';
+import { checkIfTokenInStorage, saveTokenToStorage } from './storage';
+import { fetchAndUpdate } from "./todoist";
+import { animateCSS } from "./animations";
+
 let Rainbow = require("rainbowvis.js")
 
 const box_height = 128;
@@ -17,11 +21,57 @@ let observer = new MutationObserver(function(mutations) {
     let element: HTMLElement = document.getElementById("agenda_view")
     if (element != null) {
         observer.disconnect();
-        
-        setupHeatmapIn(element)
+
+        checkIfTokenInStorage()
+            .then((hasToken) => {
+                hasToken = false;
+                if (hasToken) {
+                    setupHeatmapIn(element)
+                } else {
+                    injectTokenForm(element)
+                }
+            })
     }
 });
 observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true});
+
+function injectTokenForm(element: HTMLElement): void {
+    let path_to_form = chrome.runtime.getURL("token-form.html");
+    fetch(path_to_form)
+        .then(response => response.text())
+        .then(html => {
+            let heatmap_box = document.createElement("div")
+            heatmap_box.className = "heatmap-box";
+            heatmap_box.innerHTML = html;
+            element.appendChild(heatmap_box)
+
+            let form = document.getElementById("api-token-form")
+            form.addEventListener("submit", submitToken)
+        })
+}
+
+function submitToken(event) {
+    let user_input = event.target.token.value;
+    saveTokenToStorage(user_input)
+        .then(() => fetchAndUpdate())
+        .then(() => switchToHeatmap())
+        .catch(() => console.error("Invalid API token"))
+    event.preventDefault();
+}
+
+function switchToHeatmap() {
+
+
+    const form = document.getElementById("api-token-form")
+    
+    animateCSS(form, "zoomOut")
+        .then(() => {
+            form.remove()
+            let element: HTMLElement = document.querySelector(".heatmap-box")
+            setupHeatmapIn(element)
+            animateCSS(element, "zoomIn")
+        })
+}
 
 function setupHeatmapIn(element: HTMLElement) {
     let heatmap: Svg = injectHeatmapIn(element)
