@@ -8,12 +8,18 @@
         {
             "matches": ["https://en.todoist.com/*"],
             "js": ["out/heatmap.js"],
-            "css": ["heatmap.css", "node_modules/tippy.js/dist/tippy.css", "node_modules/animate.css/animate.min.css"]
+            "css": [
+                "heatmap.css",
+                "node_modules/tippy.js/dist/tippy.css",
+                "node_modules/animate.css/animate.min.css"
+            ]
         }
     ],
     "background": {
         "scripts": ["out/background.js"],
         "persistent": false
     },
-    "web_accessible_resources": ["token-form.html"]
+    "web_accessible_resources": [
+        "token-form.html"
+    ]
   }
