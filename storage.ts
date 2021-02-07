@@ -1,4 +1,6 @@
-export function getTokenFromStorage(): Promise<string> {
+import { CompletedTasks } from "./heatmap";
+
+export function getToken(): Promise<string> {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.get({"todoist_api_token" : ""}, function(items) {
             if (items["todoist_api_token"] == "") {
@@ -10,7 +12,7 @@ export function getTokenFromStorage(): Promise<string> {
     })
 }
 
-export function checkIfTokenInStorage(): Promise<boolean> {
+export function checkForToken(): Promise<boolean> {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.get({"todoist_api_token" : ""}, function(items) {
             if (items["todoist_api_token"] == "") {
@@ -22,8 +24,16 @@ export function checkIfTokenInStorage(): Promise<boolean> {
     })
 }
 
-export function saveTokenToStorage(api_token: string): Promise<void> {
+export function saveToken(api_token: string): Promise<void> {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.set({"todoist_api_token": api_token}, resolve)
     })
-} 
+}
+
+export function getCompletedTasks(): Promise<CompletedTasks> {
+    return new Promise((resolve) => {
+        chrome.storage.sync.get({todoist_completed_tasks: {}}, function(result) {
+            resolve(result["todoist_completed_tasks"]);
+        })
+    })
+}

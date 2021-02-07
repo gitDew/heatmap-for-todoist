@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { getTokenFromStorage } from "./storage";
+import { getToken } from "./storage";
 
 export function fetchAndUpdate(): Promise<void> {
-    return getTokenFromStorage()
+    return getToken()
         .then((api_token) => fetchProductivityStats(api_token))
         .then((response) => {
             let relevantData = convertResponse(response);

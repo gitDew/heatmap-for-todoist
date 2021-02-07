@@ -6,35 +6,67 @@
 .heatmap-box {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
-.token-form-box {
+.header h2 {
+    margin: 0;
+}
+
+.form {
+    font-family: apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     background-color: #fafafa;
-    padding: 10px;
     border-radius: 10px;
+    padding: 20px;
+}
+
+.form-row input {
+    -webkit-tap-highlight-color: rgba(0,0,0,.4);
+    color: #202020;
+    -webkit-font-smoothing: antialiased;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+    font-size: 13px;
+    -webkit-box-direction: normal;
+    outline: none!important;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px 10px; 
+    cursor: text;
 }
 
 .form-row {
     display: inline-block;
-}
-
-.form-row button {
-    background-color: #db4c3f;
-    color: #ffffff;
-    border-radius: 4px;
-    padding: 4px;
-    margin-left: 0px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
     position: relative;
-    left: -2px;
-    height: 21px;
-    top: 1px;
 }
 
-.form-row button:hover {
-    background-color: #e26f65;
+.form p {
+    margin-top: 0;
+}
+
+.error-box {
+    display: inline-flex;
+    position: absolute;
+    right: -110px;
+    height: 28px;
+    align-items: center;
+}
+
+.error-box i {
+    margin-right: 2px;
+}
+
+.error-box small {
+    color: #db4c3f;
+}
+
+.form svg {
+    color: #db4c3f;
+    font-size: 15px;
+}
+
+.form .fa-check {
+    color: white;
 }
