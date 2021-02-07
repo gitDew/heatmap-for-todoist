@@ -114,9 +114,9 @@ function animatedSwitchToHeatmap() {
 
 function injectHeatmapIn(element: HTMLElement) {
     let heatmap: Svg = createHeatmap()
+    heatmap.addTo(element)
     Storage.getCompletedTasks()
         .then((completed_tasks) => addDateAndColorAttribute(heatmap, completed_tasks))
-        .then(() => heatmap.addTo(element))
         .then(() => setupTooltips())
 }
 
