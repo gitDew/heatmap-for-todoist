@@ -56,6 +56,11 @@
     visibility: hidden;
 }
 
+.failure {
+    visibility: visible;
+}
+
+
 .error-box small {
     color: #db4c3f;
     margin-left: 2px;

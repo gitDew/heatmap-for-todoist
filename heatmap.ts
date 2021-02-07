@@ -58,20 +58,20 @@ function injectFormIn(element: HTMLElement): void {
     .then(html => {
         element.innerHTML = html;        
         setupSubmitButton();
-        setupInputField();
     })
 }
 
 function setupSubmitButton() {
     let form = document.getElementById("form");
-    form.addEventListener("submit", submitToken);
+    form.addEventListener("submit", (event) => {
+        hidePreviousError();
+        submitToken(event)
+    });
 }
 
-function setupInputField() {
-    let input_element: HTMLInputElement = document.getElementById("token-input") as HTMLInputElement;
-    input_element.addEventListener("input", () => {
-        input_element.setCustomValidity("");
-    });
+function hidePreviousError() {
+    let error_box = document.querySelector(".error-box")
+    error_box.classList.remove("failure")
 }
 
 function setupIcons(): void {
@@ -84,20 +84,37 @@ function setupIcons(): void {
 
 function submitToken(event) {
     let input_element: HTMLInputElement = document.getElementById("token-input") as HTMLInputElement;
-    let user_input = input_element.value;
+    let user_input = input_element.value.trim();
 
-    Storage.saveToken(user_input)
+    validateInput(input_element)
+    .then(() => Storage.saveToken(user_input))
     .then(() => fetchAndUpdate())
     .then(() => animatedSwitchToHeatmap())
-    .catch(() => {
-        showErrorTooltip(input_element);
+    .catch((error) => {
+        showError(input_element, error);
     })
-
+    
     event.preventDefault();
 }
-function showErrorTooltip(input_element: HTMLInputElement) {
-    input_element.setCustomValidity("Invalid API token");
-    input_element.reportValidity();
+
+function validateInput(input_element: HTMLInputElement): Promise<void> {
+    return new Promise((resolve, reject) => {
+        let reason = input_element.validity;
+
+        if (reason.valueMissing) {
+            reject("Input field empty.")
+        } else {
+            resolve()
+        }
+    })
+}
+function showError(input_element: HTMLInputElement, reason: string) {
+    let form_column = input_element.parentElement;
+    let error_box = form_column.querySelector(".error-box")
+    let error_message = error_box.querySelector("small")
+
+    error_message.innerText = reason;
+    error_box.classList.add("failure")
 }
 
 function animatedSwitchToHeatmap() {
