@@ -4,6 +4,8 @@
   "description": "",
   "main": "out/",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@svgdotjs/svg.js": "^3.0.16",
     "animate.css": "^4.1.1",
     "axios": "^0.21.1",
