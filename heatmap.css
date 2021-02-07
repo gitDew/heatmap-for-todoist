@@ -21,6 +21,7 @@
     background-color: #fafafa;
     border-radius: 10px;
     padding: 20px;
+    position: relative;
 }
 
 .form-row input {
@@ -85,4 +86,11 @@
     height: fit-content;
     position: relative;
     top: -8px;
+}
+
+.form .title {
+    position: absolute;
+    right: 4px;
+    bottom: 1px;
+    color: #5D6063;
 }
