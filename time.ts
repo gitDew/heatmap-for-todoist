@@ -5,11 +5,12 @@ function getPreviousSunday(): Date {
     return sunday;
 };
 
-function countBackDays(day: Date, daysToCountBack: number): Date {
+export function countBackDays(day: Date, daysToCountBack: number): Date {
+    let past_date = new Date(day)
     for (let i = 0; i < daysToCountBack; i++) {
-        day.setDate(day.getDate() - 1)
+        past_date.setDate(past_date.getDate() - 1)
     }
-    return day;
+    return past_date;
 };
 
 function getDaysArray(start: Date, end: Date): Date[] {
