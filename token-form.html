@@ -1,12 +1,13 @@
     <form id= "form" class="form">
-        <p>Please enter your API token found under Todoist Settings <i class="fas fa-arrow-right"></i> Integrations <i class="fas fa-arrow-right"></i> API token</p>
+        <p>Please enter your <em>API token</em> found under Todoist Settings <i class="fas fa-arrow-right"></i> Integrations <i class="fas fa-arrow-right"></i> API token</p>
         <div class="form-row">
-            <label for="token-input">API token</label>
-            <input id="token-input" name="token-input" type="text" required><button class="ist_button ist_button_red" type="submit">Submit</button>
-            <div class="error-box">
-                <i class="fas fa-exclamation-circle"></i><small>Error message</small>                
+            <div class="input-column">
+                <input id="token-input" name="token-input" type="text" placeholder="Enter your API token here." required>
+                <span class="error-box"><i class="fas fa-exclamation-circle"></i><small>Error message</small></span>
             </div>
+            <button class="ist_button ist_button_red" type="submit">Submit</button> 
         </div>
+        
     </form>
 
     

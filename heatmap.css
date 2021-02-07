@@ -35,11 +35,13 @@
     border-radius: 5px;
     padding: 5px 10px; 
     cursor: text;
+    margin-right: 5px;
 }
 
 .form-row {
-    display: inline-block;
-    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .form p {
@@ -48,18 +50,12 @@
 
 .error-box {
     display: inline-flex;
-    position: absolute;
-    right: -110px;
-    height: 28px;
     align-items: center;
-}
-
-.error-box i {
-    margin-right: 2px;
 }
 
 .error-box small {
     color: #db4c3f;
+    margin-left: 2px;
 }
 
 .form svg {
@@ -69,4 +65,20 @@
 
 .form .fa-check {
     color: white;
+}
+
+.form em {
+    font-weight: bold;
+    font-style: normal;
+}
+
+.input-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.form button {
+    height: fit-content;
+    position: relative;
+    top: -8px;
 }
