@@ -85,9 +85,10 @@
 }
 
 .form button {
-    height: fit-content;
     position: relative;
-    top: -8px;
+    top: -9px;
+    height: 27px;
+    padding: 0px 10px;
 }
 
 .form .title {
