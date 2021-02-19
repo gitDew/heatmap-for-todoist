@@ -37,3 +37,11 @@ export function getCompletedTasks(): Promise<CompletedTasks> {
         })
     })
 }
+
+export function saveCompletedTasks(newCompletedTasks: CompletedTasks): Promise<void> {
+  return new Promise((resolve) => {
+    chrome.storage.sync.set({todoist_completed_tasks: newCompletedTasks })
+    console.log("Completed tasks saved.")
+    resolve()
+  })
+}
