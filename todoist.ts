@@ -35,10 +35,10 @@ function updateStorage(newData) {
     getCompletedTasks()
     .then((dataFromStorage) => {
       console.log("Completed tasks fetched.")
-      return merge(dataFromStorage.todoist_completed_tasks, dataToBeSaved) 
+      return merge(dataFromStorage, dataToBeSaved);
     })
-    .then((updatedObject) => {
-      saveCompletedTasks(updatedObject)
+    .then((updatedData) => {
+      saveCompletedTasks(updatedData)
     })
 }
 
@@ -50,9 +50,9 @@ function convertToSaveable(newData) {
     return dataToBeSaved;
 }
 
-function merge(o1: any, o2: any) {
-  for (const key in o2) {
-    o1[key] = o2[key];
+function merge(dataFromStorage, dataToBeSaved) {
+  for (const key in dataToBeSaved) {
+    dataFromStorage[key] = dataToBeSaved[key];
   }
-  return o1;
+  return dataFromStorage;
 }
