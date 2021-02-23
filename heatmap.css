@@ -53,12 +53,8 @@
     display: inline-flex;
     align-items: center;
     margin-top: 3px;
-    visibility: hidden;
 }
 
-.failure {
-    visibility: visible;
-}
 
 
 .error-box small {
@@ -101,4 +97,15 @@
     right: 4px;
     bottom: 1px;
     color: #5D6063;
+}
+
+#spinner {
+  color: #db4c3f;
+  top: -9px;
+  position: relative;
+  margin-left: 2px;
+}
+
+.hidden {
+  visibility: hidden;
 }

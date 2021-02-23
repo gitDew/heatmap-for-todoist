@@ -5,7 +5,7 @@ import * as Storage from './storage';
 import { fetchAndUpdate } from "./todoist";
 import { animateCSS } from "./animations";
 import { library, dom } from "@fortawesome/fontawesome-svg-core";
-import { faArrowRight, faCheck, faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faCheck, faExclamationCircle, faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 let Rainbow = require("rainbowvis.js")
 
 const box_height = 128;
@@ -71,14 +71,14 @@ function setupSubmitButton() {
 
 function hidePreviousError() {
     let error_box = document.querySelector(".error-box")
-    error_box.classList.remove("failure")
+    error_box.classList.add("hidden")
 }
 
 function setupIcons(): void {
     library.add(faArrowRight)
     library.add(faCheck)
     library.add(faExclamationCircle)
-
+    library.add(faCircleNotch)
     dom.watch()
 }
 
@@ -87,14 +87,27 @@ function submitToken(event) {
     let user_input = input_element.value.trim();
 
     validateInput(input_element)
+    .then(() => showSpinner())
     .then(() => Storage.saveToken(user_input))
     .then(() => fetchAndUpdate())
     .then(() => animatedSwitchToHeatmap())
     .catch((error) => {
         showError(input_element, error);
     })
-    
+    .finally(() => {
+      hideSpinner();
+    }) 
     event.preventDefault();
+}
+
+function showSpinner() {
+  let spinner = document.getElementById("spinner")
+  spinner.classList.remove("hidden")
+}
+
+function hideSpinner() {
+  let spinner = document.getElementById("spinner")
+  spinner.classList.add("hidden")
 }
 
 function validateInput(input_element: HTMLInputElement): Promise<void> {
@@ -114,7 +127,7 @@ function showError(input_element: HTMLInputElement, reason: string) {
     let error_message = error_box.querySelector("small")
 
     error_message.innerText = reason;
-    error_box.classList.add("failure")
+    error_box.classList.remove("hidden")
 }
 
 function animatedSwitchToHeatmap() {
