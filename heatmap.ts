@@ -64,9 +64,20 @@ function injectFormIn(element: HTMLElement): void {
 function setupSubmitButton() {
     let form = document.getElementById("form");
     form.addEventListener("submit", (event) => {
-        hidePreviousError();
-        submitToken(event)
+      event.preventDefault();
+      hidePreviousError();
+      submitToken(form);
     });
+}
+
+function disableSubmit(form) {
+  form.querySelector('button[type="submit"]')
+    .setAttribute('disabled', 'disabled');
+}
+
+function enableSubmit(form) {
+  form.querySelector('button[type="submit"]')
+    .removeAttribute('disabled');
 }
 
 function hidePreviousError() {
@@ -82,22 +93,23 @@ function setupIcons(): void {
     dom.watch()
 }
 
-function submitToken(event) {
+function submitToken(form) {
     let input_element: HTMLInputElement = document.getElementById("token-input") as HTMLInputElement;
     let user_input = input_element.value.trim();
 
     validateInput(input_element)
-    .then(() => showSpinner())
+    .then(() => {
+      disableSubmit(form); 
+      showSpinner()
+    })
     .then(() => Storage.saveToken(user_input))
     .then(() => fetchAndUpdate())
     .then(() => animatedSwitchToHeatmap())
     .catch((error) => {
-        showError(input_element, error);
-    })
-    .finally(() => {
+      showError(input_element, error);
       hideSpinner();
-    }) 
-    event.preventDefault();
+      enableSubmit(form);
+    })
 }
 
 function showSpinner() {
