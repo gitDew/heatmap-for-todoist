@@ -1,6 +1,13 @@
 #heatmap {
     display: block;
     margin: auto;
+    overflow: visible;
+}
+
+@media (max-width: 600px) {
+  #heatmap {
+    transform: rotate(-90deg) translateX(-50%);
+  }
 }
 
 .heatmap-box {
