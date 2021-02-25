@@ -37,7 +37,6 @@ let observer = new MutationObserver(function() {
 
     Storage.checkForToken()
       .then((hasToken) => {
-        hasToken = false;
         if (hasToken) {
           injectHeatmapIn(heatmap_box)
         } else {
