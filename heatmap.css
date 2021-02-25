@@ -4,7 +4,7 @@
     overflow: visible;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1060px) {
   #heatmap {
     transform: rotate(-90deg) translateX(-50%);
   }
