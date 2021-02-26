@@ -1,6 +1,6 @@
 import moment from "moment";
 
-function getPreviousSunday(): Date {
+export function getPreviousSunday(): Date {
     let today = new Date();
     let sunday = new Date();
     sunday.setDate(today.getDate() - today.getDay());
@@ -16,6 +16,8 @@ export function countBackDays(day: Date, daysToCountBack: number): Date {
 };
 
 function getDaysArray(start: Date, end: Date): Date[] {
+    start.setHours(15,0,0);
+    end.setHours(15,0,0);
     let currentMoment = moment(start);
     let endMoment = moment(end);
     let arr=[]
