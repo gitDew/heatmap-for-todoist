@@ -1,3 +1,5 @@
+import moment from "moment";
+
 function getPreviousSunday(): Date {
     let today = new Date();
     let sunday = new Date();
@@ -14,9 +16,13 @@ export function countBackDays(day: Date, daysToCountBack: number): Date {
 };
 
 function getDaysArray(start: Date, end: Date): Date[] {
+    let currentMoment = moment(start);
+    let endMoment = moment(end);
     let arr=[]
-    for(let dt=new Date(start); dt<=end; dt.setDate(dt.getDate()+1)){
-        arr.push(new Date(dt));
+
+    while (currentMoment <= endMoment) {
+      arr.push(moment(currentMoment).format('YYYY-MM-DD'));
+      currentMoment = moment(currentMoment).add(1, 'days');
     }
     return arr;
 };
@@ -26,5 +32,5 @@ export function getPastYearArray(): string[] {
     let prev_sunday = getPreviousSunday()
     let start_day = countBackDays(prev_sunday, 52 * 7)
 
-    return getDaysArray(start_day, today).map((date) => date.toISOString().slice(0,10))
+    return getDaysArray(start_day, today);
 };
