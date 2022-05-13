@@ -9,7 +9,7 @@
     "@svgdotjs/svg.js": "^3.0.16",
     "animate.css": "^4.1.1",
     "axios": "^0.21.2",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "rainbowvis.js": "^1.0.1",
     "tippy.js": "^6.2.7"
   },
